@@ -1,0 +1,46 @@
+service: zemog
+
+package:
+  exclude:
+    - "node_modules/**"
+    - "*"
+
+custom: ${file(./environments/${opt:stage}.yml)}
+
+provider:
+  name: aws
+  runtime: nodejs4.3
+  role: ${self:custom.role}
+  region: ap-southeast-2
+  memorySize: 128
+  deploymentBucket: ${self:custom.deploymentBucket}
+
+functions:
+  master:
+    name: ${opt:stage}-zemog-master
+    handler: src/master.master
+    events:
+      - schedule:
+          name: ${opt:stage}-zemog-master-schedule-event-0
+          rate: ${self:custom.schedule.0.rate}
+          enabled: true
+          input:
+            QUEUE_NAME: ${self:custom.queueName}
+            TESTS: ${self:custom.schedule.0.tests}
+
+      - schedule:
+          name: ${opt:stage}-zemog-master-schedule-event-1
+          rate: ${self:custom.schedule.1.rate}
+          enabled: true
+          input:
+            QUEUE_NAME: ${self:custom.queueName}
+            TESTS: ${self:custom.schedule.1.tests}
+
+      - schedule:
+          name: ${opt:stage}-zemog-master-schedule-event-2
+          rate: ${self:custom.schedule.2.rate}
+          enabled: true
+          input:
+            QUEUE_NAME: ${self:custom.queueName}
+            TESTS: ${self:custom.schedule.2.tests}
+

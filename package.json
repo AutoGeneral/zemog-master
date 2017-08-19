@@ -1,0 +1,16 @@
+{
+  "name": "ZemogMaster",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "lint": "eslint -c ./.eslintrc src/**/*.js",
+    "lint-ci": "eslint -c ./.eslintrc src/**/*.js -f junit > eslint.xml"
+  },
+  "engines": {
+    "node": ">6.0.0"
+  },
+  "devDependencies": {
+    "aws-sdk": "2.7.15",
+    "eslint": "3.10.2"
+  }
+}
